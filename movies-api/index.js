@@ -3,6 +3,8 @@ import express from 'express';
 import moviesRouter from './api/movies/index.js';
 import router4genres from './api/genres/router4genres'
 import usersRouter from './api/users';
+import session from 'express-session';
+import authenticate from './authenticate';
 import './db';
 import './seedData'
 
@@ -20,7 +22,13 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-app.use('/api/movies', moviesRouter);
+// place this after the express.json() line
+app.use(session({
+  secret: 'ilikecake',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use('/api/movies', authenticate, moviesRouter);
 app.use('/api/genres', router4genres)
 app.use('/api/users', usersRouter);
 app.use(errHandler);
