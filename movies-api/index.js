@@ -5,6 +5,7 @@ import router4genres from './api/genres/router4genres'
 import usersRouter from './api/users';
 import session from 'express-session';
 import authenticate from './authenticate';
+import passport from './authenticate';
 import './db';
 import './seedData'
 
@@ -22,13 +23,10 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-// place this after the express.json() line
-app.use(session({
-  secret: 'ilikecake',
-  resave: true,
-  saveUninitialized: true
-}));
-app.use('/api/movies', authenticate, moviesRouter);
+// replace app.use(session([... with the following:
+app.use(passport.initialize());
+// Add passport.authenticate to middleware stack for protected routes​
+app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
 app.use('/api/genres', router4genres)
 app.use('/api/users', usersRouter);
 app.use(errHandler);
