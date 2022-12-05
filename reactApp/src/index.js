@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Routes, Navigate, Link } from "react-router-dom";
 import { PublicPage, Movies, Profile, HomePage } from "./pages";
-
+import SignUpPage from "./signUpPage";
 import LoginPage from "./loginPage";
 import AuthProvider from "./authContext";
 import AuthHeader from "./authHeader";
@@ -36,7 +36,7 @@ const App = () => {
             <Route path="/movies" element={<Movies />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
-
+          <Route path="/signup" element={ <SignUpPage /> } />
           <Route path="*" element={ <Navigate to="/" /> } />
         </Routes>
       </AuthProvider>
